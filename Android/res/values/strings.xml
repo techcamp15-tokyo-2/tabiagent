@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">旅agent</string>
+    <string name="action_settings">設置</string>
+    <string name="title_section1">すべての写真</string>
+    <string name="title_section2">友達の写真</string>
+    <string name="title_section3">検索</string>
+    <string name="title_section4">自分に関して</string>
+
+</resources>
