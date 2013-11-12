@@ -1,5 +1,8 @@
-#mysqldb    
+#mysqldb
+import os
 import time, MySQLdb
+
+#this fun help load all records in userprofile table
 def readUserprofileall():
     conn=MySQLdb.connect(host="localhost",user="root",passwd="123456",db="tabiagentdb")
     cursor = conn.cursor()
@@ -14,6 +17,7 @@ def readUserprofileall():
     conn.close()
     return res
 
+#load one record in userprofile table
 def readUserprofileOne(id):
     conn=MySQLdb.connect(host="localhost",user="root",passwd="123456",db="tabiagentdb")
     cursor = conn.cursor()
@@ -27,6 +31,7 @@ def readUserprofileOne(id):
     conn.close()
     return res
 
+#revise item in userprofile table
 def updateUserprofilePassward(id,pwd):
     conn=MySQLdb.connect(host="localhost",user="root",passwd="123456",db="tabiagentdb")
     cursor = conn.cursor()
@@ -34,8 +39,26 @@ def updateUserprofilePassward(id,pwd):
     sql = "update userprofile set passward = %s where userid = %s"
     param = (pwd,id)
     n = cursor.execute(sql,param)
-    res = cursor.fetchall()
 
+    conn.commit()
     cursor.close()
     conn.close()
-    return res
+
+#insert one record
+def insertUserprofile(item):
+    conn=MySQLdb.connect(host="localhost",user="root",passwd="123456",db="tabiagentdb")
+    cursor = conn.cursor()
+    sql = "insert into userprofile values(null,%s,%s,%s,%s,%s,%s,%s,%s)"
+    param = (item[0],item[1],item[2],item[3],item[4],item[5],item[6],item[7])
+    n = cursor.execute(sql,param)
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+def load_file(path):
+    file_object = open('path')
+    try:
+        all_the_text = file_object.read( )
+    finally:
+        file_object.close( )
