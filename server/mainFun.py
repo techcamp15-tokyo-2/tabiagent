@@ -3,9 +3,6 @@
 __author__ = 'zxz'
 
 import sys
-import json
-import time
-import math
 import tornado.httpserver
 import tornado.ioloop
 import tornado.options
@@ -14,6 +11,7 @@ import os.path
 import re
 
 from tornado.options import define,options
+from RequestHandler import *
 
 define("port",default=8888,help="run on this port",type=int)
 define("mysql_host",default="172.19.208.96:3306",help="tabiagent database")
@@ -33,40 +31,15 @@ class Application(tornado.web.Application):
         path = os.path.join(os.path.dirname(__file__), "static")
         handlers=[
             (r"/login",login),
-            #(r"/logout",logout),
+            (r"/logout",logout),
+            (r"/register",register),
+            (r"/home",HomePage),
+            (r"/friends",friends),
             #(r"/referInf",storeInf),
-            (r"/",abc),
-            #(r"/static/(.*)",tornado.web.StaticFileHandler,dict(path=path))
+            #(r"/",abc),
+            (r"/static/(.*)",tornado.web.StaticFileHandler,dict(path=path))
             ]
         tornado.web.Application.__init__(self,handlers,**settings)
-class abc(tornado.web.RequestHandler):
-    def get(self, *args, **kwargs):
-        self.write('''
-<html><body><form action="/referInf" method="post" >
-                 <input type="text" name="referInf">
-                   <input type="submit" value="Submit">
-                   </form></body></html>''')
-
-class BaseHandler(tornado.web.RequestHandler):
-    def __int__(self,application,request,**kwargs):
-        tornado.web.RequestHandler.__init__(self, application, request, **kwargs)
-#    def get(self, *args, **kwargs):
-#        self.render("a.html")
-    @property
-    def db(self):
-        return self.application.db
-
-class login(BaseHandler):
-    def post(self, *args, **kwargs):
-        information=self.get_arguments("referInf")
-        infGet=json.loads(information[0])
-
-#        self.redirect('/referInf')
-    def get(self):
-        #self.write('aaaaaa')
-        information="{"+"\"phoneNum\""+":"+'\"13003216826\"'+",""\"desInfo\""+":"+'\"i want to go america\"'+","+"\"location\""+":"+"{"+ "\"longitude\""+":"+'"121.6022"' +"," + "\"latitude\""+":"+'"38.9122"' +"}"+"}"
-        infGet=json.loads(information)
-        self.write('aaaaaa')
 
 def main():
     tornado.options.parse_command_line()
