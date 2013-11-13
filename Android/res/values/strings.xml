@@ -7,5 +7,12 @@
     <string name="title_section2">友達の写真</string>
     <string name="title_section3">検索</string>
     <string name="title_section4">自分に関して</string>
+    <string name="button_register">サインアップ</string>
+    <string name="button_login">ログイン</string>
+    <string name="login_email">サインアップした時のメールを入力</string>
+    <string name="login_password">パスワードを入力</string>
+    <string name="title_activity_after_log_in">AfterLogIn</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_search">Search</string>
 
 </resources>

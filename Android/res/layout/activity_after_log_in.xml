@@ -6,28 +6,14 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity$DummySectionFragment" >
+    tools:context=".AfterLogIn" >
 
-    <TextView
-        android:id="@+id/section_label"
+    <ImageView
+        android:id="@+id/imageView1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    
-    
-<!-- 
-    <ListView
-        android:id="@+id/listView1"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginBottom="60dp" >
-
-    </ListView>
- -->
-
-
-
+        android:src="@drawable/ic_launcher" />
 
 </RelativeLayout>

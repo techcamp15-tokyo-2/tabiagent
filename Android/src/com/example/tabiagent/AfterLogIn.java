@@ -1,30 +1,62 @@
 package com.example.tabiagent;
 
-
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.CoreConnectionPNames;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.xml.sax.Parser;
+
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
+public class AfterLogIn extends FragmentActivity implements ActionBar.TabListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -36,7 +68,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
      */
     SectionsPagerAdapter mSectionsPagerAdapter;
     
-    class LoginService implements  Runnable
+    class DesplayImageService implements  Runnable
 	{
 		@Override
 		public void run() {
@@ -50,20 +82,20 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			
 			//Send the mail and password to server.
 			boolean isLoginSucceed = toLogin(email, pwd, connectURL);
-			//if login succeed				
-				if(!isLoginSucceed){
+			//if login succeed
 				Intent intent = new Intent();
-				intent.setClass(getApplicationContext(), RegisterActivity.class);
+				if(isLoginSucceed){
+				intent.setClass(getApplicationContext(), MainActivity.class);
 				startActivity(intent);
 			}else{
-				Intent intent = new Intent();
-				intent.setClass(getApplicationContext(), AfterLogIn.class);
-				startActivity(intent);
+				//Toast.makeText(this, "Login Failed", Toast.LENGTH_LONG).show();
+				//System.out.println("");
+//				intent.setClass(getApplicationContext(), Register.class);
+//				startActivity(intent);
 				
 			}
 		}
 	}
-    
     
     private boolean toLogin(String inputEmail, String inputPwd,String connectUrl) {
 		String result = null; //
@@ -91,52 +123,51 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 				result = EntityUtils.toString(httpResponse.getEntity());
 				JSONArray re = new JSONArray(result);
 				JSONObject item1 = re.getJSONObject(0);
-				int state = item1.getInt("state");
+				String state = item1.getString("state");
 				
-				System.out.println("result = "+result);
-				System.out.println("state = "+state);
+				System.out.println("result= "+result);
+				System.out.println("state= "+state);
 				
-				if (state == 0){ 
+			//	if (ret == false) 
 					System.out.println("Login failed!");
-					return isLoginSucceed;
-				}
-				else {
+	//			else 
 					System.out.println("Login succeed!");
-					isLoginSucceed = true;
-					return isLoginSucceed;
-				}
 			}
 			
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		if(result.equals("login succeed")){
+			isLoginSucceed = true;
+		}
 		return isLoginSucceed;
-				
 		}
 
     
     /*CBW--Function of Login*/
-    public void clickToLogin (View view) {
+    public void displayImage (View view) {
    
-    	 LoginService login = new LoginService(); 
+    	DesplayImageService login = new DesplayImageService(); 
     		new Thread(login).start();
     }
-    
-    public void clickToRegisterPage(View view) {
-    	Intent intent = new Intent();
-		intent.setClass(getApplicationContext(), RegisterActivity.class);
-		startActivity(intent);
-    }
+    	
 		  
     /**
      * The {@link ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
-
+    private ImageView imageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_after_log_in);
+        //display images after created.
+        String url = "http://s16.sinaimg.cn/orignal/89429f6dhb99b4903ebcf&690";
+        //得到可用的图片
+        Bitmap bitmap = getHttpBitmap(url);
+        imageView = (ImageView)this.findViewById(R.id.imageView1);
+        //显示
+        imageView.setImageBitmap(bitmap);
 
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();
@@ -171,6 +202,30 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
+    }
+    
+    public static Bitmap getHttpBitmap(String url){
+    	URL myFileURL;
+    	Bitmap bitmap=null;
+    	try{
+    		myFileURL = new URL(url);
+    		//获得连接
+    		HttpURLConnection conn=(HttpURLConnection) myFileURL.openConnection();
+    		//设置超时时间为6000毫秒，conn.setConnectionTiem(0);表示没有时间限制
+    		conn.setConnectTimeout(6000);    		
+    		conn.connect();
+    		//得到数据流
+    		InputStream is = conn.getInputStream();
+    		//解析得到图片
+    		bitmap = BitmapFactory.decodeStream(is);
+    		//关闭数据流
+    		is.close();
+    	}catch(Exception e){
+    		e.printStackTrace();
+    	}
+    	
+		return bitmap;
+    	
     }
 
     @Override
@@ -266,4 +321,3 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
     }
 
 }
-
