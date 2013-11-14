@@ -35,6 +35,7 @@ class Application(tornado.web.Application):
             (r"/register",register),
             (r"/home",HomePage),
             (r"/friends",friends),
+            (r"/search",search),
             #(r"/referInf",storeInf),
             #(r"/",abc),
             (r"/static/(.*)",tornado.web.StaticFileHandler,dict(path=path))

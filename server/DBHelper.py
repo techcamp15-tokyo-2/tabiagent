@@ -84,9 +84,9 @@ def readPictureTop10(start):
     conn=MySQLdb.connect(host="localhost",user="root",passwd="123456",db="tabiagentdb")
     cursor = conn.cursor()
 
-    sql ="select * from pictures order by uploadtime desc limit %s,10"
-    param = start*10
-    n = cursor.execute(sql,param)
+    sql ="select * from pictures order by uploadtime desc"#limit %s,10"
+    #param = start*10
+    n = cursor.execute(sql)
     res = cursor.fetchall()
 
     conn.commit()
@@ -116,6 +116,21 @@ def readPicturesbyID(userid):
 
     sql ="select * from pictures where userid = %s"
     param = userid
+    n = cursor.execute(sql,param)
+
+    res = cursor.fetchall()
+    conn.commit()
+    cursor.close()
+    conn.close()
+    return res
+
+#load all records in pictures table
+def readPicturesbyPlace(place):
+    conn=MySQLdb.connect(host="localhost",user="root",passwd="123456",db="tabiagentdb")
+    cursor = conn.cursor()
+
+    sql ="select * from pictures where place = %s"
+    param = place
     n = cursor.execute(sql,param)
 
     res = cursor.fetchall()

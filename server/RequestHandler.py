@@ -38,7 +38,7 @@ class login(BaseHandler):
                 self.set_secure_cookie("userid",str(res[0][0]))
                 print "login success"
                 response=[]
-                response.append({"userid":str(res[0][0]),"state":"1","name":res[0][2]})
+                response.append({"userid":str(res[0][0]),"state":"1","name":res[0][2],"nickname":res[0][1]})
                 self.write(json.dumps(response))
             else:
                 print 'login failed!'
@@ -97,7 +97,7 @@ class register(BaseHandler):
 
 class HomePage(BaseHandler):
     def get(self):
-        if self.get_secure_cookie("userid"):
+        #if self.get_secure_cookie("userid"):
             print 'show home page:'
             startPage=self.get_argument("pageNum")
             res = readPictureTop10(int(startPage))
@@ -121,17 +121,17 @@ class HomePage(BaseHandler):
             else:
                 print 'no picture at all!'
 
-        else:
-            response=[]
-            response.append({"state":"0"})
-            self.write(json.dumps(response))
+        #else:
+        #    response=[]
+        #    response.append({"state":"0"})
+        #    self.write(json.dumps(response))
 
 class friends(BaseHandler):
     def get(self):
-        if self.get_secure_cookie("userid"):
+        #if self.get_secure_cookie("userid"):
             print 'show friends page:'
-            print self.get_secure_cookie("userid")
-            res = readFriendsAll(self.get_secure_cookie("userid"))
+            #print self.get_secure_cookie("userid")
+            res = readFriendsAll(self.get_argument("userid"))
             if res:
                 print "get friends success"
                 data=[]
@@ -146,6 +146,7 @@ class friends(BaseHandler):
                         dic['friend_picurl']=pic[2]
                         dic['friend_uploadtime']=pic[3].strftime("%Y-%m-%d %H:%M:%S")
                         dic['friend_place']=pic[4]
+                        print "hello"
                         data.append(dic)
                 response=[]
                 response.append({'state':"1","data":data})
@@ -153,9 +154,40 @@ class friends(BaseHandler):
             else:
                 print 'no friend'
 
-        else:
-            response=[]
-            response.append({"state":"0"})
-            self.write(json.dumps(response))
+        #else:
+         #   response=[]
+          #  response.append({"state":"0"})
+           # self.write(json.dumps(response))
+
+class search(BaseHandler):
+    def get(self):
+        #if self.get_secure_cookie("userid"):
+            print 'show search page:'
+            #print self.get_secure_cookie("userid")
+            res = readPicturesbyPlace(self.get_argument("keywords"))
+            if res:
+                print "get keyword success"
+                dic= {}
+                data=[]
+                for i in res:
+                    dic={}
+                    a = readUserprofileOnebyID(i[1])
+                    dic['picid'] = i[0]
+                    dic['userid'] = i[1]
+                    dic['nickname'] = a[0][1]
+                    dic['url']=i[2]
+                    dic['uploadtime']=i[3].strftime("%Y-%m-%d %H:%M:%S")
+                    dic['place']=i[4]
+                    data.append(dic)
+                response=[]
+                response.append({'state':"1","data":data})
+                self.write(json.dumps(response))
+            else:
+                print 'no pictures'
+
+        #else:
+         #   response=[]
+          #  response.append({"state":"0"})
+           # self.write(json.dumps(response))
 
 
