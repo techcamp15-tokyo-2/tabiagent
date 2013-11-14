@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+     android:background="@drawable/main_background" >
+    
+  <!-- android:gravity="center|center_horizontal|center_vertical" >-->
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="1300dp"
+        android:layout_height="1300dp"
+        android:layout_below="@+id/button1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="dp"
+        android:paddingTop="10dp" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/selector_btn"
+        android:padding="10dp"
+        android:text="Click to Take Photos" />
+
+>
+</RelativeLayout>

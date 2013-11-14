@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.tabiagent"
+    package="com.weibo.tabiagent"
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <uses-feature android:name="android.hardware.camera" />
+	<uses-permission android:name="android.permission.CAMERA"></uses-permission>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <uses-sdk
-        android:minSdkVersion="17"
+        android:minSdkVersion="10"
         android:targetSdkVersion="17" />
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.example.tabiagent.MainActivity"
+            android:name="com.weibo.tabiagent.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,18 +27,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.example.tabiagent.RegisterActivity"
-            android:label="@string/title_activity_register"
-            android:windowSoftInputMode="adjustResize|stateVisible" >
+        <activity android:name="com.weibo.tabiagent.Activity1" >
+        </activity>
+        <activity android:name="com.weibo.tabiagent.Activity2" >
+        </activity>
+        <activity android:name="com.weibo.tabiagent.Activity3" >
+        </activity>
+        <activity android:name="com.weibo.tabiagent.Activity4" >
+        </activity>
+        <activity android:name="com.weibo.tabiagent.Activity5" >
+        </activity>
+        <activity android:name="com.weibo.tabiagent.CustomTabActivity1" >
+        </activity>
+        <activity android:name="com.weibo.tabiagent.CustomTabActivity2" >
         </activity>
         <activity
-            android:name="com.example.tabiagent.AfterLogIn"
-            android:label="@string/title_activity_after_log_in" >
+            android:name="com.weibo.tabiagent.RegisterActivity"
+            android:label="@string/title_activity_register" >
         </activity>
         <activity
-            android:name="com.example.tabiagent.Search"
-            android:label="@string/title_activity_search" >
+            android:name="com.weibo.tabiagent.CameraActivity"
+            android:label="@string/title_activity_camera" >
         </activity>
     </application>
 
