@@ -16,12 +16,13 @@ public class Constant {
 											     R.drawable.tab_icon2,
 											     R.drawable.tab_icon3,
 											     R.drawable.tab_icon4,
-											     R.drawable.tab_icon5};
+											     R.drawable.tab_icon5
+											     };
 
 		/**
 		 * Tab选项卡的文字
 		 */
-		public static String mTextviewArray[] = {"Home", "Friends", "Search", "Profile", "More"};
+		public static String mTextviewArray[] = {"Home", "Friends", "Search", "Profile", "Camera"};
 		
 		
 		/**

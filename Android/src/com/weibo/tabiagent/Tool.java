@@ -16,6 +16,7 @@ import android.net.NetworkInfo.State;
  */
 public class Tool {
 	public static String ip = "http://172.19.208.96:8888/";
+	public static int num = 20;
 	/**
 	 * all picture url info
 	 * */

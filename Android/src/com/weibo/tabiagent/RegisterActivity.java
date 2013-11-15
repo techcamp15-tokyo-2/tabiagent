@@ -60,7 +60,7 @@ public class RegisterActivity extends Activity {
 			String gender = inputGender.getText().toString().trim();
 			//Log.i("in the login");
 			//connect to server
-			String connectURL = "http://192.168.3.68:8888/register";
+			String connectURL = Tool.ip + "register";
 			
 			//Send the mail and password to server.
 			boolean isRegisterSucceed = toRegister(email, pwd, confirmPwd, name, nickname, country, city, gender, connectURL);

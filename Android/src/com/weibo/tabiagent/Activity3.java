@@ -61,7 +61,7 @@ public class Activity3 extends Activity{
 	    }
 
 	    public int getCount() {
-	        return 20;//mThumbIds.length;
+	        return Tool.num;//mThumbIds.length;
 	    }
 
 	    public Object getItem(int position) {
@@ -235,8 +235,12 @@ public class Activity3 extends Activity{
 		}
 	
 	public void clickToSearch(View view){
-		LoginService login = new LoginService(); 
-		new Thread(login).start();
+//		LoginService login = new LoginService(); 
+//		new Thread(login).start();
+		if(Tool.num == 20 )	Tool.num = 2;
+		if(Tool.num == 6)
+			Tool.num = 2;
+		Tool.num++;
 	}
 }
 
