@@ -4,8 +4,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.weibo.tabiagent.Activity1.ImageAdapter;
+import com.weibo.tabiagent.Activity1.ImageAdapter.Asynctest;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,6 +21,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -32,7 +40,8 @@ public class Activity2 extends Activity{
         setContentView(R.layout.activity2_layout);
         
         GridView gridview = (GridView) findViewById(R.id.gridview);
-        gridview.setAdapter(new ImageAdapter(this));
+        ImageAdapter adapter = new ImageAdapter(Tool.friend_picurl,Activity2.this);
+        gridview.setAdapter(adapter);
 
         gridview.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -46,38 +55,50 @@ public class Activity2 extends Activity{
 	public class ImageAdapter extends BaseAdapter {
 	    private Context mContext;
 
-	    public ImageAdapter(Context c) {
-	        mContext = c;
+	    private Map<Integer, View> rowViews = new HashMap<Integer, View>();
+	    private List<String> urls = new ArrayList<String>();
+	    
+	    public ImageAdapter(List<String> urls,Context mContext){
+	    	this.mContext = mContext;
+	    	this.urls = urls;
 	    }
-
+	   
 	    public int getCount() {
-	        return 20;//mThumbIds.length;
+	        return urls.size();//mThumbIds.length;
 	    }
 
 	    public Object getItem(int position) {
-	        return null;
+	        return urls.get(position);
 	    }
 
 	    public long getItemId(int position) {
-	        return 0;
+	        return position;
 	    }
 
 	    // create a new ImageView for each item referenced by the Adapter
 	    public View getView(int position, View convertView, ViewGroup parent) {
-	        ImageView imageView;
-	        if (convertView == null) {  // if it's not recycled, initialize some attributes
-	            imageView = new ImageView(mContext);
-	            imageView.setLayoutParams(new GridView.LayoutParams(600, 400));
+//	        ImageView imageView;
+	    	View rowV = rowViews.get(position);
+	        if (convertView == null) {
+	        	// if it's not recycled, initialize some attributes
+	        	LayoutInflater layout = LayoutInflater.from(mContext);
+	        	rowV = layout.inflate(R.layout.image, null);
+	        	ImageView imageView = (ImageView)rowV.findViewById(R.id.imageView);
 	            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 	            imageView.setPadding(8, 8, 8, 8);
-	        } else {
-	            imageView = (ImageView) convertView;
+	        	Asynctest testAsynctest = new Asynctest(imageView);
+		        testAsynctest.execute();
+		        rowViews.put(position, rowV);
 	        }
+//	            imageView = new ImageView(mContext);
+
+//	        } else {
+//	            imageView = (ImageView) convertView;
+//	        }
 	        //imageView = (ImageView) findViewById(R.id.imageView);
-	        Asynctest testAsynctest = new Asynctest(imageView);
-	        testAsynctest.execute();
+	        
 	        //imageView.setImageResource(mThumbIds[position]);
-	        return imageView;
+	        return rowV;
 	    }
 
 		class Asynctest extends AsyncTask<String, Integer, Bitmap>{
@@ -93,10 +114,7 @@ public class Activity2 extends Activity{
 	        @Override
 	        protected Bitmap doInBackground(String... param){
 	            Bitmap bitmap;
-	            if(Tool.friend_picurl.size() == 0){
-	            	//
-	            	return null;
-	            }
+	            
 	            try {
 	                //URL url = new URL("http", "suzuki.toshinari.jp", "/images/thumbnail_codaholic.org.jpg");
 	                URL url = new URL((String)Tool.read_friend_picurl());
@@ -123,7 +141,6 @@ public class Activity2 extends Activity{
 	            this.imageView.setImageBitmap(result);
 	            this.linearLayout.addView(this.imageView);
 	            */
-	            
 	            imageView.setImageBitmap(result);
 
 	        }

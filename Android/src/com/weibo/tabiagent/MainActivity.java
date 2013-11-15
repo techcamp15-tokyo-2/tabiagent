@@ -70,17 +70,16 @@ public class MainActivity extends Activity {
 						result = EntityUtils.toString(httpResponse.getEntity());
 						JSONArray re1 = new JSONArray(result);
 						JSONObject item1 = re1.getJSONObject(0);
-						int state = item1.getInt("state");
-						Tool.state = state;
-						Tool.userid = item1.getInt("userid");
-						Tool.name = item1.getString("name");
-						Tool.nickname = item1.getString("nickname");
-						
+						int state = item1.getInt("state");				
 						if (state == 0){ 
 							System.out.println("Login failed!");
 							return isLoginSucceed;
 						}
 						else {
+							Tool.state = state;
+							Tool.userid = item1.getInt("userid");
+							Tool.name = item1.getString("name");
+							Tool.nickname = item1.getString("nickname");
 							System.out.println("Login succeed!");
 							isLoginSucceed = true;
 							

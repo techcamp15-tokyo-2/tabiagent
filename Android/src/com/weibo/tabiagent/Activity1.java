@@ -37,7 +37,7 @@ public class Activity1 extends Activity{
         gridview.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
             	//v.setLayoutParams(new GridView.LayoutParams(500, 500));
-                Toast.makeText(Activity1.this, "This is taken by " + Tool.read_image_nickname(position), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(Activity1.this, "This is taken by " + Tool.read_image_nickname(position), Toast.LENGTH_SHORT).show();
             }
         });
         Log.i(TAG, "=============>onCreate");

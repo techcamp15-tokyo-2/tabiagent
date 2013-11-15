@@ -2,6 +2,7 @@
 package com.weibo.tabiagent;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.jar.Attributes.Name;
 
 import com.weibo.tabiagent.R.string;
@@ -14,12 +15,12 @@ import android.net.NetworkInfo.State;
  * Some simple test data to use for this sample app.
  */
 public class Tool {
-	public static String ip = "http://192.168.3.68:8888/";
+	public static String ip = "http://172.19.208.96:8888/";
 	/**
 	 * all picture url info
 	 * */
 	public static int index = 0;
-    public static ArrayList image_Urls = new ArrayList();
+    public static List<String> image_Urls = new ArrayList<String>();
     public static ArrayList image_uploadtime = new ArrayList();
     public static ArrayList image_place = new ArrayList();
     public static ArrayList image_nickname = new ArrayList();
@@ -57,7 +58,7 @@ public class Tool {
      * search info
      * */
 	public static int search_index = 0;
-    public static ArrayList search_Urls = new ArrayList();
+    public static List<String> search_Urls = new ArrayList<String>();
     public static ArrayList search_uploadtime = new ArrayList();
     public static ArrayList search_place = new ArrayList();
     public static ArrayList search_nickname = new ArrayList();
@@ -77,7 +78,7 @@ public class Tool {
     public static ArrayList friend_id = new ArrayList();
     public static ArrayList friend_nicknameString = new ArrayList();
     public static ArrayList friend_picid =new ArrayList();
-    public static ArrayList friend_picurl =new ArrayList();
+    public static List<String> friend_picurl =new ArrayList<String>();
     public static ArrayList friend_uploadtime =new ArrayList();
     public static ArrayList friend_place =new ArrayList();
     

@@ -48,7 +48,7 @@ public class Activity3 extends Activity{
         gridview.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
             	//v.setLayoutParams(new GridView.LayoutParams(500, 500));
-                Toast.makeText(Activity3.this, "hello" + position, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(Activity3.this, "hello" + position, Toast.LENGTH_SHORT).show();
             }
         });
         Log.i(TAG, "=============>onCreate");
